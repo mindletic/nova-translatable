@@ -16,9 +16,9 @@ class Translatable extends Field
     /**
      * Create a new field.
      *
-     * @param  string  $name
-     * @param  string|null  $attribute
-     * @param  mixed|null  $resolveCallback
+     * @param string $name
+     * @param string|null $attribute
+     * @param mixed|null $resolveCallback
      * @return void
      */
     public function __construct($name, $attribute = null, $resolveCallback = null)
@@ -37,13 +37,15 @@ class Translatable extends Field
     /**
      * Resolve the given attribute from the given resource.
      *
-     * @param  mixed  $resource
-     * @param  string  $attribute
+     * @param mixed $resource
+     * @param string $attribute
      * @return mixed
      */
     protected function resolveAttribute($resource, $attribute)
     {
-        if (method_exists($resource, 'getTranslations')) {
+        if (is_object($resource)
+            && method_exists($resource, 'getTranslations')
+        ) {
             return $resource->getTranslations($attribute);
         }
         return data_get($resource, $attribute);
@@ -52,7 +54,7 @@ class Translatable extends Field
     /**
      * Set the locales to display / edit.
      *
-     * @param  array  $locales
+     * @param array $locales
      * @return $this
      */
     public function locales(array $locales)
@@ -63,7 +65,7 @@ class Translatable extends Field
     /**
      * Set the locale to display on index.
      *
-     * @param  string $locale
+     * @param string $locale
      * @return $this
      */
     public function indexLocale($locale)
@@ -74,7 +76,7 @@ class Translatable extends Field
     /**
      * Set the locale to display on detail and form.
      *
-     * @param  string $locale
+     * @param string $locale
      * @return $this
      */
     public function currentLocale($locale)
